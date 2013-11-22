@@ -61,7 +61,7 @@ public class MediamarktRobot implements Robot {
         buffer.append("\tTitle: " + videogame.getTitle() + "\n");
         buffer.append("\tPlatform: " + videogame.getPlatform() + "\n");
         buffer.append("\tWeb: " + videogame.getUrl() + "\n");
-        buffer.append("\tPrice: " + videogame.getPrice() + "\n}");
+        buffer.append("\tPrice: " + videogame.getPrice() + " €\n}");
 
         return buffer.toString();
     };

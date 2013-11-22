@@ -9,4 +9,4 @@ Log de trabajo
 22 de Noviembre de 2013:
 
 * Lectura de una página de juegos de PS3
-*
+* Parser para un videojuego dado el elemento HTML que lo conforma

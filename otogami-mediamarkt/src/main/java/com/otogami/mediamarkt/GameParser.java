@@ -2,6 +2,7 @@ package com.otogami.mediamarkt;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
+import com.gargoylesoftware.htmlunit.html.HtmlImage;
 import org.apache.commons.lang.StringUtils;
 
 import java.math.BigDecimal;
@@ -37,7 +38,10 @@ public class GameParser {
     }
 
     public BigDecimal getPrice() {
-        return new BigDecimal("0.00");
+        HtmlImage image = game.getFirstByXPath(".//div[@class='productPrices']/img");
+        String price = image.getAltAttribute().replace("€", "");
+
+        return new BigDecimal(price);
     }
 
     private String cleanName(String name) {
