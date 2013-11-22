@@ -48,6 +48,7 @@ public class GameParser {
         String result = name;
 
         result = result.replace("Juego PS3", "");
+        result = result.replace("PS3 ", "");
         result = StringUtils.trim(result);
 
         return result;

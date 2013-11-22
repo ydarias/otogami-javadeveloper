@@ -29,41 +29,30 @@ public class MediamarktRobot implements Robot {
         WebClient webClient = new WebClient();
 
         try {
+            boolean existsNextPage = true;
             HtmlPage page = webClient.getPage(BASE_URL + "/juegos-ps3");
-            List<HtmlDivision> games = (List<HtmlDivision>) page.getByXPath("//div[contains(@class, 'product product9')]");
-            for (HtmlDivision game : games) {
-                GameParser gameParser = new GameParser(BASE_URL, game);
-                if (gameParser.isGame()) {
-                    Videogame videogame = new Videogame();
-                    videogame.setPlatform(platform);
-                    videogame.setTitle(gameParser.getTitle());
-                    videogame.setUrl(gameParser.getUrl());
-                    videogame.setPrice(gameParser.getPrice());
+            do {
+                PageParser pageParser = new PageParser(platform, page, BASE_URL);
+                Collection<Videogame> videogames = pageParser.getVideogames();
+                result.addAll(videogames);
 
-                    log.debug("Title -> " + print(videogame));
-                }
-            }
+                HtmlAnchor nextPageLink = page.getFirstByXPath("//a[@class='pager pagerNext']");
+                if (nextPageLink == null)
+                    existsNextPage = false;
+                else
+                    page = nextPageLink.click();
+            } while (existsNextPage);
         } catch (MalformedURLException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            log.error(e);
         } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            log.error(e);
         } finally {
             webClient.closeAllWindows();
         }
 
+        log.debug("Parsed " + result.size() + " videogames for " + platform);
+
         return result;
 	}
-
-    private String print(Videogame videogame) {
-        StringBuffer buffer = new StringBuffer();
-
-        buffer.append("Videogame {\n");
-        buffer.append("\tTitle: " + videogame.getTitle() + "\n");
-        buffer.append("\tPlatform: " + videogame.getPlatform() + "\n");
-        buffer.append("\tWeb: " + videogame.getUrl() + "\n");
-        buffer.append("\tPrice: " + videogame.getPrice() + " €\n}");
-
-        return buffer.toString();
-    };
 
 }
