@@ -5,3 +5,8 @@ Log de trabajo
 * Carga del proyecto en el IDE.
 * Inclusión de Log4j como librería de logging.
 * Familiarización con HtmlUnit.
+
+22 de Noviembre de 2013:
+
+* Lectura de una página de juegos de PS3
+*
