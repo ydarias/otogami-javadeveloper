@@ -4,6 +4,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import org.apache.commons.lang.StringUtils;
 
+import java.math.BigDecimal;
+
 public class GameParser {
 
     private HtmlDivision game;
@@ -13,6 +15,12 @@ public class GameParser {
     public GameParser(String baseUrl, HtmlDivision game) {
         this.baseUrl = baseUrl;
         this.game = game;
+    }
+    public boolean isGame() {
+        HtmlDivision description = game.getFirstByXPath(".//div[@class='product9ShortDescription']");
+        String cleanDescription = StringUtils.upperCase(description.getTextContent());
+
+        return cleanDescription.contains("JUEGO PS3");
     }
 
     public String getTitle() {
@@ -24,7 +32,12 @@ public class GameParser {
 
     public String getUrl() {
         HtmlAnchor anchor = game.getFirstByXPath(".//a[@class='productName product1Name']");
+
         return baseUrl + anchor.getHrefAttribute();
+    }
+
+    public BigDecimal getPrice() {
+        return new BigDecimal("0.00");
     }
 
     private String cleanName(String name) {

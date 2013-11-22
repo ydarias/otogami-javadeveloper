@@ -33,10 +33,15 @@ public class MediamarktRobot implements Robot {
             List<HtmlDivision> games = (List<HtmlDivision>) page.getByXPath("//div[contains(@class, 'product product9')]");
             for (HtmlDivision game : games) {
                 GameParser gameParser = new GameParser(BASE_URL, game);
-                String title = gameParser.getTitle();
-                String url = gameParser.getUrl();
+                if (gameParser.isGame()) {
+                    Videogame videogame = new Videogame();
+                    videogame.setPlatform(platform);
+                    videogame.setTitle(gameParser.getTitle());
+                    videogame.setUrl(gameParser.getUrl());
+                    videogame.setPrice(gameParser.getPrice());
 
-                log.debug("Title -> " + title + ", " + url);
+                    log.debug("Title -> " + print(videogame));
+                }
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -48,5 +53,17 @@ public class MediamarktRobot implements Robot {
 
         return result;
 	}
+
+    private String print(Videogame videogame) {
+        StringBuffer buffer = new StringBuffer();
+
+        buffer.append("Videogame {\n");
+        buffer.append("\tTitle: " + videogame.getTitle() + "\n");
+        buffer.append("\tPlatform: " + videogame.getPlatform() + "\n");
+        buffer.append("\tWeb: " + videogame.getUrl() + "\n");
+        buffer.append("\tPrice: " + videogame.getPrice() + "\n}");
+
+        return buffer.toString();
+    };
 
 }
