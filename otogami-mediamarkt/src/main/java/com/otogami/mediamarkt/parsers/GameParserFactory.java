@@ -10,6 +10,8 @@ public class GameParserFactory {
             return new PS3GameParser(platformBaseUrl, game);
         if (Platform.xbox360.equals(platform))
             return new Xbox360GameParser(platformBaseUrl, game);
+        if (Platform.wii.equals(platform))
+            return new WiiGameParser(platformBaseUrl, game);
 
         return null;
     }

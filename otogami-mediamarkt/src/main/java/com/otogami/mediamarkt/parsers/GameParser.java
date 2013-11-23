@@ -21,10 +21,16 @@ public abstract class GameParser {
     public boolean isGame() {
         HtmlDivision description = game.getFirstByXPath(".//div[@class='product9ShortDescription']");
 
-        return isPlatformGame(description.getTextContent());
-    }
+        String descriptionValue = description.getTextContent();
 
-    protected abstract boolean isPlatformGame(String description);
+        if(descriptionValue.toUpperCase().contains("GUÍA") || descriptionValue.toUpperCase().contains("GUIA"))
+            return false;
+
+        if(descriptionValue.toUpperCase().contains("ACCESORIO"))
+            return false;
+
+        return true;
+    }
 
     public String getTitle() {
         HtmlAnchor anchor = game.getFirstByXPath(".//a[@class='productName product1Name']");
