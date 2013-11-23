@@ -55,7 +55,7 @@ de la plataforma buscada.
 * Se parsea todo el contenido de PS Vita.
 * Se parsea todo el contenido de PC.
 
-23 de Noviembre de 2013: 1 hora
+## 23 de Noviembre de 2013: 1 hora
 
 *Tag V2*
 
