@@ -34,6 +34,7 @@ public abstract class GameParser {
     public String getTitle() {
         HtmlAnchor titleAnchor = game.getFirstByXPath(".//a[@class='productName product1Name']");
         String name = titleAnchor.getTextContent();
+        name = name.replace("Pre-Order", "");
 
         return cleanName(name);
     }

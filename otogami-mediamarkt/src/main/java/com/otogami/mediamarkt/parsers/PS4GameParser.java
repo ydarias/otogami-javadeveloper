@@ -10,8 +10,7 @@ public class PS4GameParser extends GameParser {
 
     @Override
     protected String cleanName(String name) {
-        String result = name.replace("Pre-Order", "");
-        result = result.replace("PS4", "");
+        String result = name.replace("PS4", "");
 
         return result.trim();
     }
