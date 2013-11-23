@@ -28,3 +28,5 @@ de la plataforma buscada.
 * Se parsea todo el contenido de Wii.
 * Se parsea todo el contenido de PS4.
 * Cuando aparece Pre-Order en el título del juego se crea con Availability.Preorder (visto parseando juegos de PS4).
+* Se parsea todo el contenido de Xbox One.
+* Se parsea todo el contenido de Wii U.
