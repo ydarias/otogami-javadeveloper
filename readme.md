@@ -4,10 +4,6 @@ Existen juegos que entran dentro de un pack que no es oficial. Por ejemplo, Un m
 edición especial del juego sino una oferta de MediaMarkt. Este tipo de elementos que entran en accesorios para
 MediaMarkt no es contemplado por el parseador, porque ...
 
-Tags
-
-V1
-
 Log de trabajo
 
 20 de Noviembre de 2013: 1 hora
@@ -23,7 +19,9 @@ Log de trabajo
 * Recorrido de todas las páginas de la plataforma PS3.
 * Se parsea todo el contenido de PS3.
 
-23 de Noviembre de 2013:
+23 de Noviembre de 2013: 2 horas y 15 minutos
+
+Tag V1
 
 * Refactorización para que toda la lógica común se contenga en PageParser y GameParser y la específica en un GameParser
 de la plataforma buscada.

@@ -25,7 +25,7 @@ public class GameParserFactory {
         if (Platform.pc.equals(platform))
             return new PCGameParser(platformBaseUrl, game);
 
-        return null;
+        throw new IllegalArgumentException("Platform " + platform + " is not implemented");
     }
 
 }

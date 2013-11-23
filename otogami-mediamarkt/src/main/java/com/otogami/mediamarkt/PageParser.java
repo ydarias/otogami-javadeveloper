@@ -2,7 +2,6 @@ package com.otogami.mediamarkt;
 
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.otogami.core.model.Availability;
 import com.otogami.core.model.Platform;
 import com.otogami.core.model.Videogame;
 import com.otogami.mediamarkt.parsers.GameParser;
@@ -33,22 +32,24 @@ public class PageParser {
         log.debug("Parsing new page ...");
 
         Collection<Videogame> videogames = new ArrayList<Videogame>();
-
-        List<HtmlDivision> games = (List<HtmlDivision>) page.getByXPath("//div[contains(@class, 'product product9')]");
-        for (HtmlDivision game : games) {
-            GameParser gameParser = GameParserFactory.buildInstance(platform, platformBaseUrl, game);
-            if (gameParser.isGame()) {
-                Videogame videogame = buildVideogame(platform, gameParser);
-                videogames.add(videogame);
-
-                log.debug("Parsed videogame " + videogame.getTitle());
-            }
-        }
+        List<HtmlDivision> gameDivs = (List<HtmlDivision>) page.getByXPath("//div[contains(@class, 'product product9')]");
+        for (HtmlDivision gameDiv : gameDivs)
+            processVideogame(videogames, gameDiv);
 
         return videogames;
     }
 
-    private Videogame buildVideogame(Platform platform, GameParser gameParser) {
+    private void processVideogame(Collection<Videogame> videogames, HtmlDivision gameDiv) {
+        GameParser gameParser = GameParserFactory.buildInstance(platform, platformBaseUrl, gameDiv);
+        if (gameParser.isGame()) {
+            Videogame videogame = buildVideogameInstance(platform, gameParser);
+            videogames.add(videogame);
+
+            log.debug("Parsed videogame " + videogame.getTitle());
+        }
+    }
+
+    private Videogame buildVideogameInstance(Platform platform, GameParser gameParser) {
         Videogame videogame = new Videogame();
 
         videogame.setPlatform(platform);
