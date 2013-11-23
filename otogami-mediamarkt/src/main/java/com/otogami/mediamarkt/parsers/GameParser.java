@@ -1,4 +1,4 @@
-package com.otogami.mediamarkt;
+package com.otogami.mediamarkt.parsers;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
@@ -7,11 +7,11 @@ import org.apache.commons.lang.StringUtils;
 
 import java.math.BigDecimal;
 
-public class GameParser {
+public abstract class GameParser {
 
-    private HtmlDivision game;
+    protected HtmlDivision game;
 
-    private String baseUrl;
+    protected String baseUrl;
 
     public GameParser(String baseUrl, HtmlDivision game) {
         this.baseUrl = baseUrl;
@@ -19,10 +19,11 @@ public class GameParser {
     }
     public boolean isGame() {
         HtmlDivision description = game.getFirstByXPath(".//div[@class='product9ShortDescription']");
-        String cleanDescription = StringUtils.upperCase(description.getTextContent());
 
-        return cleanDescription.contains("JUEGO PS3");
+        return isPlatformGame(description.getTextContent());
     }
+
+    protected abstract boolean isPlatformGame(String description);
 
     public String getTitle() {
         HtmlAnchor anchor = game.getFirstByXPath(".//a[@class='productName product1Name']");
@@ -44,7 +45,7 @@ public class GameParser {
         return new BigDecimal(price);
     }
 
-    private String cleanName(String name) {
+    protected abstract String cleanName(String name); /* {
         String result = name;
 
         result = result.replace("Juego PS3", "");
@@ -52,6 +53,6 @@ public class GameParser {
         result = StringUtils.trim(result);
 
         return result;
-    }
+    }                                                   */
 
 }

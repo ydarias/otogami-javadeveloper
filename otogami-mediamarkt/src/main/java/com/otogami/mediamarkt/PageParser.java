@@ -2,8 +2,11 @@ package com.otogami.mediamarkt;
 
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.otogami.core.model.Availability;
 import com.otogami.core.model.Platform;
 import com.otogami.core.model.Videogame;
+import com.otogami.mediamarkt.parsers.GameParser;
+import com.otogami.mediamarkt.parsers.GameParserFactory;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -33,13 +36,12 @@ public class PageParser {
 
         List<HtmlDivision> games = (List<HtmlDivision>) page.getByXPath("//div[contains(@class, 'product product9')]");
         for (HtmlDivision game : games) {
-            GameParser gameParser = new GameParser(platformBaseUrl, game);
+            GameParser gameParser = GameParserFactory.buildInstance(platform, platformBaseUrl, game);
             if (gameParser.isGame()) {
                 Videogame videogame = buildVideogame(platform, gameParser);
+                videogames.add(videogame);
 
                 log.debug("Parsed videogame " + videogame.getTitle());
-
-                videogames.add(videogame);
             }
         }
 
@@ -53,6 +55,7 @@ public class PageParser {
         videogame.setTitle(gameParser.getTitle());
         videogame.setUrl(gameParser.getUrl());
         videogame.setPrice(gameParser.getPrice());
+        videogame.setAvailability(Availability.InStock);
 
         return videogame;
     }

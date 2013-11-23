@@ -11,15 +11,19 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class MediamarktRobot implements Robot {
 
     private static final Logger log = Logger.getLogger(MediamarktRobot.class);
 
     private static final String BASE_URL = "http://tiendas.mediamarkt.es";
+
+    private static final Map<Platform, String> PLATFORM_URL = new HashMap<Platform, String>();
+    static {
+        PLATFORM_URL.put(Platform.ps3, "/juegos-ps3");
+        PLATFORM_URL.put(Platform.xbox360, "/juegos-xbox-360");
+    };
 
 	public Collection<Videogame> getVideogamesOnPlatform(Platform platform) {
         log.debug("Getting Videogames for platform " + platform);
@@ -30,7 +34,8 @@ public class MediamarktRobot implements Robot {
 
         try {
             boolean existsNextPage = true;
-            HtmlPage page = webClient.getPage(BASE_URL + "/juegos-ps3");
+            String url = BASE_URL + PLATFORM_URL.get(platform);
+            HtmlPage page = webClient.getPage(url);
             do {
                 PageParser pageParser = new PageParser(platform, page, BASE_URL);
                 Collection<Videogame> videogames = pageParser.getVideogames();
