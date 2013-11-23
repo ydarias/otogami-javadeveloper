@@ -18,18 +18,24 @@ public abstract class GameParser {
         this.baseUrl = baseUrl;
         this.game = game;
     }
+
     public boolean isGame() {
         HtmlDivision descriptionDiv = game.getFirstByXPath(".//div[@class='product9ShortDescription']");
-        String descriptionValue = descriptionDiv.getTextContent();
+        String description = descriptionDiv.getTextContent();
 
-        if(descriptionValue.toUpperCase().contains("GUÍA") || descriptionValue.toUpperCase().contains("GUIA"))
+        if(description.toUpperCase().contains("GUÍA") || description.toUpperCase().contains("GUIA"))
             return false;
 
-        if(descriptionValue.toUpperCase().contains("ACCESORIO"))
+        if(description.toUpperCase().contains("ACCESORIO"))
+            return false;
+
+        if (hasSpecificPlatformErrors(description))
             return false;
 
         return true;
     }
+
+    protected abstract boolean hasSpecificPlatformErrors(String description);
 
     public String getTitle() {
         HtmlAnchor titleAnchor = game.getFirstByXPath(".//a[@class='productName product1Name']");

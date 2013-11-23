@@ -9,6 +9,11 @@ public class XboxOneGameParser extends GameParser {
     }
 
     @Override
+    protected boolean hasSpecificPlatformErrors(String description) {
+        return false;
+    }
+
+    @Override
     protected String cleanName(String name) {
         String result = name.replace("Xbox One", "");
 

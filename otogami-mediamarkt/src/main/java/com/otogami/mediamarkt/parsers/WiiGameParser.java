@@ -1,12 +1,16 @@
 package com.otogami.mediamarkt.parsers;
 
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
-import org.apache.commons.lang.StringUtils;
 
 public class WiiGameParser extends GameParser {
 
     public WiiGameParser(String baseUrl, HtmlDivision game) {
         super(baseUrl, game);
+    }
+
+    @Override
+    protected boolean hasSpecificPlatformErrors(String description) {
+        return false;
     }
 
     @Override

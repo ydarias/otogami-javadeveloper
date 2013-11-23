@@ -9,6 +9,11 @@ public class PS3GameParser extends GameParser {
     }
 
     @Override
+    protected boolean hasSpecificPlatformErrors(String description) {
+        return false;
+    }
+
+    @Override
     protected String cleanName(String name) {
         String result = name.replace("Juego PS3", "");
         result = result.replace("PS3 ", "");

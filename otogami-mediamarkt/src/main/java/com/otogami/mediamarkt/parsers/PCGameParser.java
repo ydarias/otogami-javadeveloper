@@ -2,24 +2,28 @@ package com.otogami.mediamarkt.parsers;
 
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 
-public class Nintendo3DSGameParser extends GameParser {
+public class PCGameParser extends GameParser {
 
-    public Nintendo3DSGameParser(String platformBaseUrl, HtmlDivision game) {
+    public PCGameParser(String platformBaseUrl, HtmlDivision game) {
         super(platformBaseUrl, game);
     }
 
     @Override
     protected boolean hasSpecificPlatformErrors(String description) {
+        if (description.contains("Juego Xbox 360"))
+            return true;
+
+        if (description.contains("Juego PS3"))
+            return true;
+
         return false;
     }
 
     @Override
     protected String cleanName(String name) {
-        String result = name.replace("3DS", "");
-        result = result.replace("3SD", "");
+        String result = name.replace("Juego PC", "");
 
-        // there are words with ds for example words, so needs to check the start :-)
-        if (result.startsWith("DS "))
+        if (result.startsWith("PC "))
             result = result.substring(3);
 
         return result.trim();

@@ -8,6 +8,11 @@ public class Xbox360GameParser extends GameParser {
         super(baseUrl, game);
     }
 
+    @Override
+    protected boolean hasSpecificPlatformErrors(String description) {
+        return false;
+    }
+
     protected  String cleanName(String name) {
         String result = name.replace("Combo Xbox One - Xbox 360,", "");
         result = result.replace("Juego Xbox360", "");

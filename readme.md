@@ -4,6 +4,10 @@ Existen juegos que entran dentro de un pack que no es oficial. Por ejemplo, Un m
 edición especial del juego sino una oferta de MediaMarkt. Este tipo de elementos que entran en accesorios para
 MediaMarkt no es contemplado por el parseador, porque ...
 
+Tags
+
+V1
+
 Log de trabajo
 
 20 de Noviembre de 2013: 1 hora
@@ -31,4 +35,5 @@ de la plataforma buscada.
 * Se parsea todo el contenido de Xbox One.
 * Se parsea todo el contenido de Wii U.
 * Se parsea todo el contenido de Nintendo 3DS.
-* Se parsea todo el contenido de Nintendo PS Vita.
+* Se parsea todo el contenido de PS Vita.
+* Se parsea todo el contenido de PC.

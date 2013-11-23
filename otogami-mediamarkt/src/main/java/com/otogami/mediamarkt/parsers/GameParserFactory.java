@@ -22,6 +22,8 @@ public class GameParserFactory {
             return new Nintendo3DSGameParser(platformBaseUrl, game);
         if (Platform.psvita.equals(platform))
             return new PSVitaGameParser(platformBaseUrl, game);
+        if (Platform.pc.equals(platform))
+            return new PCGameParser(platformBaseUrl, game);
 
         return null;
     }
