@@ -18,6 +18,8 @@ public class GameParserFactory {
             return new XboxOneGameParser(platformBaseUrl, game);
         if (Platform.wiiu.equals(platform))
             return new WiiUGameParser(platformBaseUrl, game);
+        if (Platform.n3ds.equals(platform))
+            return new Nintendo3DSGameParser(platformBaseUrl, game);
 
         return null;
     }
