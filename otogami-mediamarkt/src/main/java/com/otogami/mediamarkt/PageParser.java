@@ -42,23 +42,11 @@ public class PageParser {
     private void processVideogame(Collection<Videogame> videogames, HtmlDivision gameDiv) {
         GameParser gameParser = GameParserFactory.buildInstance(platform, platformBaseUrl, gameDiv);
         if (gameParser.isGame()) {
-            Videogame videogame = buildVideogameInstance(platform, gameParser);
+            Videogame videogame = gameParser.buildVideogameInstance();
             videogames.add(videogame);
 
             log.debug("Parsed videogame " + videogame.getTitle());
         }
-    }
-
-    private Videogame buildVideogameInstance(Platform platform, GameParser gameParser) {
-        Videogame videogame = new Videogame();
-
-        videogame.setPlatform(platform);
-        videogame.setTitle(gameParser.getTitle());
-        videogame.setUrl(gameParser.getUrl());
-        videogame.setPrice(gameParser.getPrice());
-        videogame.setAvailability(gameParser.getAvailability());
-
-        return videogame;
     }
 
 }

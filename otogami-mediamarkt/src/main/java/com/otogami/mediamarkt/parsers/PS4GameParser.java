@@ -1,6 +1,7 @@
 package com.otogami.mediamarkt.parsers;
 
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
+import com.otogami.core.model.Platform;
 
 public class PS4GameParser extends GameParser {
 
@@ -15,9 +16,14 @@ public class PS4GameParser extends GameParser {
 
     @Override
     protected String cleanName(String name) {
-        String result = name.replace("PS4", "");
+        String result = cleanString(name, "PS4");
 
         return result.trim();
+    }
+
+    @Override
+    protected Platform getPlatform() {
+        return Platform.ps4;
     }
 
 }

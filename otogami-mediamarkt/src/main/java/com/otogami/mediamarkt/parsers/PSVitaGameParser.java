@@ -1,6 +1,7 @@
 package com.otogami.mediamarkt.parsers;
 
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
+import com.otogami.core.model.Platform;
 
 public class PSVitaGameParser extends GameParser {
 
@@ -15,11 +16,14 @@ public class PSVitaGameParser extends GameParser {
 
     @Override
     protected String cleanName(String name) {
-        String result = name.replace("Juego PSVita", "");
-        result = result.replace("PS Vita", "");
-        result = result.replace("PSVita", "");
+        String result = cleanString(name, "Juego PSVita", "PS Vita", "PSVita", "PS VITA");
 
         return result.trim();
+    }
+
+    @Override
+    protected Platform getPlatform() {
+        return Platform.psvita;
     }
 
 }

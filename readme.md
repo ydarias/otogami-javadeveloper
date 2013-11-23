@@ -12,6 +12,17 @@ Existen juegos que entran dentro de un pack que no es oficial. Por ejemplo, Un m
 edición especial del juego sino una oferta de MediaMarkt. Este tipo de elementos que entran en accesorios para
 MediaMarkt no es contemplado por el parseador, porque ¿aún no se me ha ocurrido una forma elegante de hacerlo?
 
+
+# ¿Por qué no se ha hecho TDD?
+
+La mayor dificultad de este ejercicio reside en el análisis y extracción de información de la web de MediaMarkt, cosa
+que se hace con HtmlUnit. Si desconfiaramos de HtmlUnit como herramienta usaríamos otra por lo que no merece la pena
+hacer tests en ese frente.
+
+Por lo tanto nos queda hacer TDD para diseñar todos los componentes que forman parte de nuestra solución interna. En
+este caso se trata de operaciones sencillas que se reduce a limpiar la entrada y formar un objeto Videogame, por lo que
+actualmente el uso de TDD no me habría aportado una solución mucho más optima o limpia.
+
 # Log de trabajo
 
 ## 20 de Noviembre de 2013: 1 hora
@@ -43,3 +54,9 @@ de la plataforma buscada.
 * Se parsea todo el contenido de Nintendo 3DS.
 * Se parsea todo el contenido de PS Vita.
 * Se parsea todo el contenido de PC.
+
+23 de Noviembre de 2013: 1 hora
+
+*Tag V2*
+
+* Refactorización para aumentar la legibilidad.

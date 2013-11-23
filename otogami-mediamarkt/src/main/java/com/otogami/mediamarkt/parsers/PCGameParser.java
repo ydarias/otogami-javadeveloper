@@ -1,6 +1,7 @@
 package com.otogami.mediamarkt.parsers;
 
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
+import com.otogami.core.model.Platform;
 
 public class PCGameParser extends GameParser {
 
@@ -10,10 +11,7 @@ public class PCGameParser extends GameParser {
 
     @Override
     protected boolean hasSpecificPlatformErrors(String description) {
-        if (description.contains("Juego Xbox 360"))
-            return true;
-
-        if (description.contains("Juego PS3"))
+        if (containsString(description, "Juego Xbox 360", "Juego PS3"))
             return true;
 
         return false;
@@ -21,12 +19,17 @@ public class PCGameParser extends GameParser {
 
     @Override
     protected String cleanName(String name) {
-        String result = name.replace("Juego PC", "");
+        String result = cleanString(name, "Juego PC");
 
         if (result.startsWith("PC "))
             result = result.substring(3);
 
         return result.trim();
+    }
+
+    @Override
+    protected Platform getPlatform() {
+        return Platform.pc;
     }
 
 }

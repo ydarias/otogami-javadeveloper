@@ -1,6 +1,7 @@
 package com.otogami.mediamarkt.parsers;
 
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
+import com.otogami.core.model.Platform;
 
 public class Xbox360GameParser extends GameParser {
 
@@ -14,16 +15,22 @@ public class Xbox360GameParser extends GameParser {
     }
 
     protected  String cleanName(String name) {
-        String result = name.replace("Combo Xbox One - Xbox 360,", "");
-        result = result.replace("Juego Xbox360", "");
-        result = result.replace("Juego Xbox 360", "");
-        result = result.replace("Juego XBox 360", "");
-        result = result.replace("Juego XBOX 360", "");
-        result = result.replace("Xbox 360", "");
-        result = result.replace("XBox 360", "");
-        result = result.replace("Xobx 360", "");
+        String result = cleanString(name,
+                "Combo Xbox One - Xbox 360,",
+                "Juego Xbox360",
+                "Juego Xbox 360",
+                "Juego XBox 360",
+                "Juego XBOX 360",
+                "Xbox 360",
+                "XBox 360",
+                "Xobx 360");
 
         return result.trim();
+    }
+
+    @Override
+    protected Platform getPlatform() {
+        return Platform.xbox360;
     }
 
 }

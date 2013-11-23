@@ -1,6 +1,7 @@
 package com.otogami.mediamarkt.parsers;
 
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
+import com.otogami.core.model.Platform;
 
 public class Nintendo3DSGameParser extends GameParser {
 
@@ -15,14 +16,18 @@ public class Nintendo3DSGameParser extends GameParser {
 
     @Override
     protected String cleanName(String name) {
-        String result = name.replace("3DS", "");
-        result = result.replace("3SD", "");
+        String result = cleanString(name, "Juego Nintendo", "Juego DSi", "3DS", "3SD");
 
         // there are words with ds for example words, so needs to check the start :-)
         if (result.startsWith("DS "))
             result = result.substring(3);
 
         return result.trim();
+    }
+
+    @Override
+    protected Platform getPlatform() {
+        return Platform.n3ds;
     }
 
 }

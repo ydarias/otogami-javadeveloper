@@ -4,6 +4,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlImage;
 import com.otogami.core.model.Availability;
+import com.otogami.core.model.Platform;
+import com.otogami.core.model.Videogame;
 import org.apache.commons.lang.StringUtils;
 
 import java.math.BigDecimal;
@@ -23,10 +25,7 @@ public abstract class GameParser {
         HtmlDivision descriptionDiv = game.getFirstByXPath(".//div[@class='product9ShortDescription']");
         String description = descriptionDiv.getTextContent();
 
-        if(description.toUpperCase().contains("GUÍA") || description.toUpperCase().contains("GUIA"))
-            return false;
-
-        if(description.toUpperCase().contains("ACCESORIO"))
+        if(containsString(description.toUpperCase(), "GUÍA", "GUIA", "ACCESORIO"))
             return false;
 
         if (hasSpecificPlatformErrors(description))
@@ -35,23 +34,38 @@ public abstract class GameParser {
         return true;
     }
 
+    public Videogame buildVideogameInstance() {
+        Videogame videogame = new Videogame();
+
+        videogame.setPlatform(getPlatform());
+        videogame.setTitle(getTitle());
+        videogame.setUrl(getUrl());
+        videogame.setPrice(getPrice());
+        videogame.setAvailability(getAvailability());
+
+        return videogame;
+    }
+
     protected abstract boolean hasSpecificPlatformErrors(String description);
 
-    public String getTitle() {
+    protected abstract String cleanName(String name);
+
+    protected abstract Platform getPlatform();
+
+    protected String getTitle() {
         HtmlAnchor titleAnchor = game.getFirstByXPath(".//a[@class='productName product1Name']");
-        String name = titleAnchor.getTextContent();
-        name = name.replace("Pre-Order", "");
+        String name = titleAnchor.getTextContent().replace("Pre-Order", "");
 
         return cleanName(name);
     }
 
-    public String getUrl() {
+    protected String getUrl() {
         HtmlAnchor urlAnchor = game.getFirstByXPath(".//a[@class='productName product1Name']");
 
         return baseUrl + urlAnchor.getHrefAttribute();
     }
 
-    public BigDecimal getPrice() {
+    protected BigDecimal getPrice() {
         HtmlImage priceImage = game.getFirstByXPath(".//div[@class='productPrices']/img");
         if (priceImage == null)
             return new BigDecimal("0.00");
@@ -60,7 +74,7 @@ public abstract class GameParser {
         return new BigDecimal(price);
     }
 
-    public Availability getAvailability() {
+    protected Availability getAvailability() {
         HtmlDivision noStockDiv = game.getFirstByXPath(".//div[@class='categoryDSI_noStock']");
         if (noStockDiv != null)
             return Availability.OutofStock;
@@ -76,6 +90,20 @@ public abstract class GameParser {
         return Availability.InStock;
     }
 
-    protected abstract String cleanName(String name);
+    protected String cleanString(String input, String... targets) {
+        String result = input;
+        for (String target : targets)
+            result = result.replace(target, "");
+
+        return result;
+    }
+
+    protected boolean containsString(String input, String... targets) {
+        for (String target : targets)
+            if (input.contains(target))
+                return true;
+
+        return false;
+    }
 
 }

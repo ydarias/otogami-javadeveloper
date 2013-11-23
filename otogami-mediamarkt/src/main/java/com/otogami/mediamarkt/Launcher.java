@@ -10,7 +10,7 @@ public class Launcher {
 
     public static void main(String [] args) {
         Robot robot = new MediamarktRobot();
-        Collection<Videogame> videogames = robot.getVideogamesOnPlatform(Platform.xboxone);
+        Collection<Videogame> videogames = robot.getVideogamesOnPlatform(Platform.pc);
         for (Videogame videogame : videogames)
             System.out.println(print(videogame));
     }

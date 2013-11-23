@@ -22,9 +22,7 @@ public class MediamarktRobot implements Robot {
         Collection<Videogame> result = new ArrayList<Videogame>();
         WebClient webClient = new WebClient();
         try {
-            String url = MediamarktUrlBuilder.getPlatformUrl(platform);
-            HtmlPage page = webClient.getPage(url);
-            result = getVideogamesFromSite(platform, page);
+            result = getVideogamesFromSite(platform, webClient);
         } catch (MalformedURLException e) {
             log.error(e);
         } catch (IOException e) {
@@ -38,9 +36,10 @@ public class MediamarktRobot implements Robot {
         return result;
 	}
 
-    private Collection<Videogame> getVideogamesFromSite(Platform platform, HtmlPage page) throws IOException {
+    private Collection<Videogame> getVideogamesFromSite(Platform platform, WebClient webClient) throws IOException {
         Collection<Videogame> result = new ArrayList<Videogame>();
-
+        String url = MediamarktUrlBuilder.getPlatformUrl(platform);
+        HtmlPage page = webClient.getPage(url);
         do {
             PageParser pageParser = new PageParser(platform, page, MediamarktUrlBuilder.BASE_URL);
             result.addAll(pageParser.getVideogames());
