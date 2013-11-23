@@ -20,6 +20,8 @@ public class GameParserFactory {
             return new WiiUGameParser(platformBaseUrl, game);
         if (Platform.n3ds.equals(platform))
             return new Nintendo3DSGameParser(platformBaseUrl, game);
+        if (Platform.psvita.equals(platform))
+            return new PSVitaGameParser(platformBaseUrl, game);
 
         return null;
     }

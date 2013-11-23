@@ -28,6 +28,7 @@ public class MediamarktRobot implements Robot {
         PLATFORM_URL.put(Platform.xboxone, "/juegos-es");
         PLATFORM_URL.put(Platform.wiiu, "/juegos-wii-u");
         PLATFORM_URL.put(Platform.n3ds, "/juegos-3ds");
+        PLATFORM_URL.put(Platform.psvita, "/juegos-ps-vita");
     };
 
 	public Collection<Videogame> getVideogamesOnPlatform(Platform platform) {

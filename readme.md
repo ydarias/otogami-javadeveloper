@@ -31,3 +31,4 @@ de la plataforma buscada.
 * Se parsea todo el contenido de Xbox One.
 * Se parsea todo el contenido de Wii U.
 * Se parsea todo el contenido de Nintendo 3DS.
+* Se parsea todo el contenido de Nintendo PS Vita.
