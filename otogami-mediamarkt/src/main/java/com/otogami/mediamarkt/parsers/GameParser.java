@@ -3,6 +3,7 @@ package com.otogami.mediamarkt.parsers;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlImage;
+import com.otogami.core.model.Availability;
 import org.apache.commons.lang.StringUtils;
 
 import java.math.BigDecimal;
@@ -40,9 +41,19 @@ public abstract class GameParser {
 
     public BigDecimal getPrice() {
         HtmlImage image = game.getFirstByXPath(".//div[@class='productPrices']/img");
+        if (image == null)
+            return new BigDecimal("0.00");
         String price = image.getAltAttribute().replace("€", "");
 
         return new BigDecimal(price);
+    }
+
+    public Availability getAvailability() {
+        HtmlDivision noStock = game.getFirstByXPath(".//div[@class='categoryDSI_noStock']");
+        if (noStock != null)
+            return Availability.OutofStock;
+
+        return Availability.InStock;
     }
 
     protected abstract String cleanName(String name); /* {

@@ -23,6 +23,7 @@ public class Launcher {
         buffer.append("\tPlatform: " + videogame.getPlatform() + "\n");
         buffer.append("\tWeb: " + videogame.getUrl() + "\n");
         buffer.append("\tPrice: " + videogame.getPrice() + " €\n}");
+        buffer.append("\tAvailability: " + videogame.getAvailability() + "\n}");
 
         return buffer.toString();
     };

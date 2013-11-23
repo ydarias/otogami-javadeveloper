@@ -55,7 +55,7 @@ public class PageParser {
         videogame.setTitle(gameParser.getTitle());
         videogame.setUrl(gameParser.getUrl());
         videogame.setPrice(gameParser.getPrice());
-        videogame.setAvailability(Availability.InStock);
+        videogame.setAvailability(gameParser.getAvailability());
 
         return videogame;
     }
