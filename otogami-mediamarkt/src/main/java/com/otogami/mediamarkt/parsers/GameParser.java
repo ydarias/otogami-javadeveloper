@@ -19,9 +19,8 @@ public abstract class GameParser {
         this.game = game;
     }
     public boolean isGame() {
-        HtmlDivision description = game.getFirstByXPath(".//div[@class='product9ShortDescription']");
-
-        String descriptionValue = description.getTextContent();
+        HtmlDivision descriptionDiv = game.getFirstByXPath(".//div[@class='product9ShortDescription']");
+        String descriptionValue = descriptionDiv.getTextContent();
 
         if(descriptionValue.toUpperCase().contains("GUÍA") || descriptionValue.toUpperCase().contains("GUIA"))
             return false;
@@ -33,43 +32,43 @@ public abstract class GameParser {
     }
 
     public String getTitle() {
-        HtmlAnchor anchor = game.getFirstByXPath(".//a[@class='productName product1Name']");
-        String name = anchor.getTextContent();
+        HtmlAnchor titleAnchor = game.getFirstByXPath(".//a[@class='productName product1Name']");
+        String name = titleAnchor.getTextContent();
 
         return cleanName(name);
     }
 
     public String getUrl() {
-        HtmlAnchor anchor = game.getFirstByXPath(".//a[@class='productName product1Name']");
+        HtmlAnchor urlAnchor = game.getFirstByXPath(".//a[@class='productName product1Name']");
 
-        return baseUrl + anchor.getHrefAttribute();
+        return baseUrl + urlAnchor.getHrefAttribute();
     }
 
     public BigDecimal getPrice() {
-        HtmlImage image = game.getFirstByXPath(".//div[@class='productPrices']/img");
-        if (image == null)
+        HtmlImage priceImage = game.getFirstByXPath(".//div[@class='productPrices']/img");
+        if (priceImage == null)
             return new BigDecimal("0.00");
-        String price = image.getAltAttribute().replace("€", "");
+        String price = priceImage.getAltAttribute().replace("€", "");
 
         return new BigDecimal(price);
     }
 
     public Availability getAvailability() {
-        HtmlDivision noStock = game.getFirstByXPath(".//div[@class='categoryDSI_noStock']");
-        if (noStock != null)
+        HtmlDivision noStockDiv = game.getFirstByXPath(".//div[@class='categoryDSI_noStock']");
+        if (noStockDiv != null)
             return Availability.OutofStock;
+
+        HtmlDivision descriptionDiv = game.getFirstByXPath(".//div[@class='product9ShortDescription']");
+        if (descriptionDiv.getTextContent().toUpperCase().contains("FECHA DE LANZAMIENTO"))
+            return Availability.Preorder;
+
+        HtmlAnchor titleAnchor = game.getFirstByXPath(".//a[@class='productName product1Name']");
+        if (titleAnchor.getTextContent().toUpperCase().contains("PRE-ORDER"))
+            return Availability.Preorder;
 
         return Availability.InStock;
     }
 
-    protected abstract String cleanName(String name); /* {
-        String result = name;
-
-        result = result.replace("Juego PS3", "");
-        result = result.replace("PS3 ", "");
-        result = StringUtils.trim(result);
-
-        return result;
-    }                                                   */
+    protected abstract String cleanName(String name);
 
 }
