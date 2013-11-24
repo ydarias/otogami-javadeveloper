@@ -59,18 +59,20 @@ public abstract class GameParser {
     protected abstract Platform getPlatform();
 
     protected String getId() {
-        HtmlAnchor availabilityAnchor = game.getFirstByXPath(".//a[@class='availability_available1']");
-        if (availabilityAnchor == null) {
+        try {
+            HtmlAnchor availabilityAnchor = game.getFirstByXPath(".//a[@class='availability_available1']");
+            String onclickScript = availabilityAnchor.getOnClickAttribute();
+            Pattern pattern = Pattern.compile("(\\d+)");
+            Matcher matcher = pattern.matcher(onclickScript);
+            if (matcher.find())
+                return matcher.group(0);
+
+            log.error(getTitle() + " can't find id on script text");
+        } catch(NullPointerException e) {
             log.error(getTitle() + " has no availabilityAnchor");
-            return "";
         }
 
-        String onclickScript = availabilityAnchor.getOnClickAttribute();
-        Pattern pattern = Pattern.compile("(\\d+)");
-        Matcher matcher = pattern.matcher(onclickScript);
-        matcher.find();
-
-        return matcher.group(0);
+        return "";
     }
 
     protected String getTitle() {

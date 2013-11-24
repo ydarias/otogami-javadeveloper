@@ -61,4 +61,10 @@ de la plataforma buscada.
 
 * Refactorización para aumentar la legibilidad.
 
-24 de Noviembre de 2013:
+## 24 de Noviembre de 2013: 1 hora
+
+*Tag V3*
+
+* Se guardan los IDs.
+* Se pasan los tests de Otogami, que hasta ahora no había ni mirado :S
+* Refactorización del código de GameParser.
