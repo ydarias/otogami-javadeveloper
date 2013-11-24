@@ -10,7 +10,7 @@ public class Launcher {
 
     public static void main(String [] args) {
         Robot robot = new MediamarktRobot();
-        Collection<Videogame> videogames = robot.getVideogamesOnPlatform(Platform.pc);
+        Collection<Videogame> videogames = robot.getVideogamesOnPlatform(Platform.ps4);
         for (Videogame videogame : videogames)
             System.out.println(print(videogame));
     }
@@ -19,6 +19,7 @@ public class Launcher {
         StringBuffer buffer = new StringBuffer();
 
         buffer.append("Videogame {\n");
+        buffer.append("\tID: " + videogame.getId() + "\n");
         buffer.append("\tTitle: " + videogame.getTitle() + "\n");
         buffer.append("\tPlatform: " + videogame.getPlatform() + "\n");
         buffer.append("\tWeb: " + videogame.getUrl() + "\n");

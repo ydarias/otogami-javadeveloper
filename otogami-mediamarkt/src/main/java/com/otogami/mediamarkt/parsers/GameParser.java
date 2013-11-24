@@ -7,10 +7,15 @@ import com.otogami.core.model.Availability;
 import com.otogami.core.model.Platform;
 import com.otogami.core.model.Videogame;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class GameParser {
+
+    private static final Logger log = Logger.getLogger(GameParser.class);
 
     protected HtmlDivision game;
 
@@ -22,7 +27,7 @@ public abstract class GameParser {
     }
 
     public boolean isGame() {
-        HtmlDivision descriptionDiv = game.getFirstByXPath(".//div[@class='product9ShortDescription']");
+        HtmlDivision descriptionDiv = getDescriptionDiv();
         String description = descriptionDiv.getTextContent();
 
         if(containsString(description.toUpperCase(), "GUÍA", "GUIA", "ACCESORIO"))
@@ -37,6 +42,7 @@ public abstract class GameParser {
     public Videogame buildVideogameInstance() {
         Videogame videogame = new Videogame();
 
+        videogame.setId(getId());
         videogame.setPlatform(getPlatform());
         videogame.setTitle(getTitle());
         videogame.setUrl(getUrl());
@@ -52,21 +58,36 @@ public abstract class GameParser {
 
     protected abstract Platform getPlatform();
 
+    protected String getId() {
+        HtmlAnchor availabilityAnchor = game.getFirstByXPath(".//a[@class='availability_available1']");
+        if (availabilityAnchor == null) {
+            log.error(getTitle() + " has no availabilityAnchor");
+            return "";
+        }
+
+        String onclickScript = availabilityAnchor.getOnClickAttribute();
+        Pattern pattern = Pattern.compile("(\\d+)");
+        Matcher matcher = pattern.matcher(onclickScript);
+        matcher.find();
+
+        return matcher.group(0);
+    }
+
     protected String getTitle() {
-        HtmlAnchor titleAnchor = game.getFirstByXPath(".//a[@class='productName product1Name']");
+        HtmlAnchor titleAnchor = getTitleAnchor();
         String name = titleAnchor.getTextContent().replace("Pre-Order", "");
 
         return cleanName(name);
     }
 
     protected String getUrl() {
-        HtmlAnchor urlAnchor = game.getFirstByXPath(".//a[@class='productName product1Name']");
+        HtmlAnchor urlAnchor = getTitleAnchor();
 
         return baseUrl + urlAnchor.getHrefAttribute();
     }
 
     protected BigDecimal getPrice() {
-        HtmlImage priceImage = game.getFirstByXPath(".//div[@class='productPrices']/img");
+        HtmlImage priceImage = getPriceImage();
         if (priceImage == null)
             return new BigDecimal("0.00");
         String price = priceImage.getAltAttribute().replace("€", "");
@@ -75,15 +96,15 @@ public abstract class GameParser {
     }
 
     protected Availability getAvailability() {
-        HtmlDivision noStockDiv = game.getFirstByXPath(".//div[@class='categoryDSI_noStock']");
+        HtmlDivision noStockDiv = getNotStockDiv();
         if (noStockDiv != null)
             return Availability.OutofStock;
 
-        HtmlDivision descriptionDiv = game.getFirstByXPath(".//div[@class='product9ShortDescription']");
+        HtmlDivision descriptionDiv = getDescriptionDiv();
         if (descriptionDiv.getTextContent().toUpperCase().contains("FECHA DE LANZAMIENTO"))
             return Availability.Preorder;
 
-        HtmlAnchor titleAnchor = game.getFirstByXPath(".//a[@class='productName product1Name']");
+        HtmlAnchor titleAnchor = getTitleAnchor();
         if (titleAnchor.getTextContent().toUpperCase().contains("PRE-ORDER"))
             return Availability.Preorder;
 
@@ -104,6 +125,22 @@ public abstract class GameParser {
                 return true;
 
         return false;
+    }
+
+    private HtmlAnchor getTitleAnchor() {
+        return game.getFirstByXPath(".//a[@class='productName product1Name']");
+    }
+
+    private HtmlImage getPriceImage() {
+        return game.getFirstByXPath(".//div[@class='productPrices']/img");
+    }
+
+    private HtmlDivision getNotStockDiv() {
+        return game.getFirstByXPath(".//div[@class='categoryDSI_noStock']");
+    }
+
+    private HtmlDivision getDescriptionDiv() {
+        return game.getFirstByXPath(".//div[@class='product9ShortDescription']");
     }
 
 }

@@ -60,3 +60,5 @@ de la plataforma buscada.
 *Tag V2*
 
 * Refactorización para aumentar la legibilidad.
+
+24 de Noviembre de 2013:
