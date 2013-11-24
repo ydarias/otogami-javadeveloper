@@ -68,3 +68,7 @@ de la plataforma buscada.
 * Se guardan los IDs.
 * Se pasan los tests de Otogami, que hasta ahora no había ni mirado :S
 * Refactorización del código de GameParser.
+
+## 24 de Noviembre de 2013
+
+* Se revisa la obtención del ID para que funcione cuando el elemento del que se obtiene cambia a no disponible.

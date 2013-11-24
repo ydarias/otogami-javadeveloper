@@ -59,18 +59,13 @@ public abstract class GameParser {
     protected abstract Platform getPlatform();
 
     protected String getId() {
-        try {
-            HtmlAnchor availabilityAnchor = game.getFirstByXPath(".//a[@class='availability_available1']");
-            String onclickScript = availabilityAnchor.getOnClickAttribute();
-            Pattern pattern = Pattern.compile("(\\d+)");
-            Matcher matcher = pattern.matcher(onclickScript);
-            if (matcher.find())
-                return matcher.group(0);
+        HtmlAnchor availabilityAnchor = getAvailabilityAnchor();
+        Pattern pattern = Pattern.compile("(\\d+)");
+        Matcher matcher = pattern.matcher(availabilityAnchor.getOnClickAttribute());
+        if (matcher.find())
+            return matcher.group(0);
 
-            log.error(getTitle() + " can't find id on script text");
-        } catch(NullPointerException e) {
-            log.error(getTitle() + " has no availabilityAnchor");
-        }
+        log.error(getTitle() + " can't find id on script text");
 
         return "";
     }
@@ -143,6 +138,14 @@ public abstract class GameParser {
 
     private HtmlDivision getDescriptionDiv() {
         return game.getFirstByXPath(".//div[@class='product9ShortDescription']");
+    }
+
+    private HtmlAnchor getAvailabilityAnchor() {
+        HtmlAnchor availabilityAnchor = game.getFirstByXPath(".//a[@class='availability_available1']");
+        if (availabilityAnchor == null)
+            availabilityAnchor = game.getFirstByXPath(".//a[@class='availability_unavailable1']");
+
+        return availabilityAnchor;
     }
 
 }
