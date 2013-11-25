@@ -51,12 +51,10 @@ public class MediamarktRobot implements Robot {
 
     private HtmlPage navigateToNextPage(HtmlPage page) throws IOException {
         HtmlAnchor nextPageLink = page.getFirstByXPath("//a[@class='pager pagerNext']");
-        if (nextPageLink != null)
-            page = nextPageLink.click();
-        else
-            page = null;
+        if (nextPageLink == null)
+            return null;
 
-        return page;
+        return nextPageLink.click();
     }
 
 }
