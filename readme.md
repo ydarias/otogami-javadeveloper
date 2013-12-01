@@ -72,3 +72,10 @@ de la plataforma buscada.
 ## 24 de Noviembre de 2013
 
 * Se revisa la obtención del ID para que funcione cuando el elemento del que se obtiene cambia a no disponible.
+
+# Otogami Server
+
+## 1 de Diciembre de 2013: 1 pomodoro
+
+* Se integran los cambios que provienen del proyecto oficial de Otogami.
+* Se configura Spring MVC para poder crear endpoints REST.
