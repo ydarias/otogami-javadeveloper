@@ -10,5 +10,7 @@
 	<modules>
 		<module>otogami-core</module>
 		<module>otogami-mediamarkt</module>
+    	<module>otogami-server</module>
+    	<module>otogami-updater</module>
 	</modules>
 </project>
