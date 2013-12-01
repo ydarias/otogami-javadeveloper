@@ -4,10 +4,7 @@ import com.otogami.server.facade.VideogameFacade;
 import com.otogami.server.model.VideogameEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,10 +24,10 @@ public class VideogameController {
     }
 
     @RequestMapping(value = "update/{storeId}", method = RequestMethod.POST)
-    public @ResponseBody String updateVideogames(Long storeId, @RequestBody List<VideogameEntity> videogames) {
+    public @ResponseBody String updateVideogames(@PathVariable Long storeId, @RequestBody List<VideogameEntity> videogames) {
 
         for (VideogameEntity videogame : videogames)
-                videogameFacade.txUpdate(videogame);
+                videogameFacade.txUpdate(storeId, videogame);
 
         return "OK";
     }
