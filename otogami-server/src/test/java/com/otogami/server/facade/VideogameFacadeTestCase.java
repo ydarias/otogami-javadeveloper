@@ -27,33 +27,33 @@ public class VideogameFacadeTestCase {
 
     @Test
     public void shouldTryToGetVideogameFromDAO() {
-        VideogameEntity splinterCell = buildSplinterCell();
+        VideogameEntity sourceGame = buildMockGame();
 
-        videogameFacade.txUpdate("1", splinterCell);
+        videogameFacade.txUpdate("1", sourceGame);
 
         verify(videogameDao, times(1)).findByStoreGameId("1", "2");
     }
 
     @Test
     public void shouldMapNewDataToVideogameBeforeSaveOrUpdate() {
-        VideogameEntity splinterCell = buildSplinterCell();
+        VideogameEntity sourceGame = buildMockGame();
         VideogameEntity storedGame = new VideogameEntity();
 
         when(videogameDao.findByStoreGameId("1", "2")).thenReturn(storedGame);
 
-        videogameFacade.txUpdate("1", splinterCell);
+        videogameFacade.txUpdate("1", sourceGame);
 
         InOrder inOrder = inOrder(videogameDao, videogameMapper);
 
-        inOrder.verify(videogameMapper).updateFields(storedGame, splinterCell);
+        inOrder.verify(videogameMapper).updateFields(storedGame, sourceGame);
         inOrder.verify(videogameDao).saveOrUpdate(storedGame);
     }
 
-    private VideogameEntity buildSplinterCell() {
-        VideogameEntity splinterCell = new VideogameEntity();
-        splinterCell.setStoreGameId("2");
+    private VideogameEntity buildMockGame() {
+        VideogameEntity game = new VideogameEntity();
+        game.setStoreGameId("2");
 
-        return splinterCell;
+        return game;
     }
 
 }
