@@ -26,15 +26,6 @@ public class VideogameFacadeTestCase {
     }
 
     @Test
-    public void shouldTryToGetVideogameFromDAO() {
-        VideogameEntity sourceGame = buildMockGame();
-
-        videogameFacade.txUpdate("1", sourceGame);
-
-        verify(videogameDao, times(1)).findByStoreGameId("1", "2");
-    }
-
-    @Test
     public void shouldMapNewDataToVideogameBeforeSaveOrUpdate() {
         VideogameEntity sourceGame = buildMockGame();
         VideogameEntity storedGame = new VideogameEntity();
