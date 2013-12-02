@@ -17,6 +17,7 @@ public class VideogameFacade {
 
     public void txUpdate(String storeId, VideogameEntity videogame) {
         VideogameEntity storedVideogame = videogameDao.findByStoreGameId(storeId, videogame.getStoreGameId());
+        videogameDao.saveOrUpdate(storedVideogame);
     }
 
 }

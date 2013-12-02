@@ -25,7 +25,6 @@ public class VideogameController {
 
     @RequestMapping(value = "update/{storeId}", method = RequestMethod.POST)
     public @ResponseBody String updateVideogames(@PathVariable String storeId, @RequestBody List<VideogameEntity> videogames) {
-
         for (VideogameEntity videogame : videogames)
                 videogameFacade.txUpdate(storeId, videogame);
 

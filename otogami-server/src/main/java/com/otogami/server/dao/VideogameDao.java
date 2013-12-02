@@ -12,6 +12,8 @@ public interface VideogameDao {
 	
 	List<VideogameEntity> findByPlatform(String platform);
 
+    VideogameEntity saveOrUpdate(VideogameEntity videogame);
+
     //TODO: Add the necessary methods to solve the problem...
 	
 }
