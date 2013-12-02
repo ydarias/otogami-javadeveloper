@@ -7,6 +7,7 @@ import com.otogami.server.model.VideogameEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -15,11 +16,13 @@ public class VideogameFacadeTestCase {
 
     @Mock private VideogameDao videogameDao;
 
+    @Mock private VideogameMapper videogameMapper;
+
     private VideogameFacade videogameFacade;
 
     @Before
     public void setup() {
-        videogameFacade = new VideogameFacade(videogameDao);
+        videogameFacade = new VideogameFacade(videogameDao, videogameMapper);
     }
 
     @Test
@@ -32,12 +35,18 @@ public class VideogameFacadeTestCase {
     }
 
     @Test
-    public void shouldSaveOrUpdateVideogame() {
+    public void shouldMapNewDataToVideogameBeforeSaveOrUpdate() {
         VideogameEntity splinterCell = buildSplinterCell();
+        VideogameEntity storedGame = new VideogameEntity();
+
+        when(videogameDao.findByStoreGameId("1", "2")).thenReturn(storedGame);
 
         videogameFacade.txUpdate("1", splinterCell);
 
-        verify(videogameDao, times(1)).saveOrUpdate((VideogameEntity) anyObject());
+        InOrder inOrder = inOrder(videogameDao, videogameMapper);
+
+        inOrder.verify(videogameMapper).updateFields(storedGame, splinterCell);
+        inOrder.verify(videogameDao).saveOrUpdate(storedGame);
     }
 
     private VideogameEntity buildSplinterCell() {
