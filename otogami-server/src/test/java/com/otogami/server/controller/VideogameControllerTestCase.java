@@ -26,9 +26,9 @@ public class VideogameControllerTestCase {
         videogames.add(new VideogameEntity());
         videogames.add(new VideogameEntity());
 
-        videogameController.updateVideogames(1L, videogames);
+        videogameController.updateVideogames("1", videogames);
 
-        verify(videogameFacade, times(3)).txUpdate(anyLong(), (VideogameEntity) anyObject());
+        verify(videogameFacade, times(3)).txUpdate(anyString(), (VideogameEntity) anyObject());
     }
 
 }

@@ -7,11 +7,11 @@ import com.otogami.server.model.VideogameEntity;
 public interface VideogameDao {
 
 	VideogameEntity findById(Long id);
-	
-	VideogameEntity findByStoreGameId(String id);
+
+    VideogameEntity findByStoreGameId(String storeId, String storeGameId);
 	
 	List<VideogameEntity> findByPlatform(String platform);
-	
-	//TODO: Add the necessary methods to solve the problem...
+
+    //TODO: Add the necessary methods to solve the problem...
 	
 }
