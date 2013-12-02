@@ -6,7 +6,7 @@ import com.otogami.server.model.VideogameEntity;
 
 public interface VideogameDao {
 
-	VideogameEntity findById(Long id);
+	Object findById(Long id);
 
     VideogameEntity findByStoreGameId(String storeId, String storeGameId);
 	

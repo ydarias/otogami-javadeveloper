@@ -1,11 +1,16 @@
 package com.otogami.server.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import java.math.BigDecimal;
 
+@Entity
 public class VideogameEntity {
 
 	//PK 
-	private Long id;
+	@Id private Long id;
 	//Original game id in the store
 	private String storeGameId;
 	//Game Title 
@@ -20,8 +25,8 @@ public class VideogameEntity {
 	private BigDecimal price;
 	//Id or Name of the store
 	private String storeId;
-	
-	public Long getId() {
+
+    public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {

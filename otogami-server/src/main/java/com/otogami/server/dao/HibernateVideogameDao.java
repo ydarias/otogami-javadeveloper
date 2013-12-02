@@ -1,29 +1,42 @@
 package com.otogami.server.dao;
 
 import com.otogami.server.model.VideogameEntity;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component(value = "videogameDao")
+@Component("videogameDao")
 public class HibernateVideogameDao implements VideogameDao {
+
+    @Autowired private SessionFactory sessionFactory;
+
     @Override
     public VideogameEntity findById(Long id) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return (VideogameEntity) sessionFactory.getCurrentSession().get(VideogameEntity.class, id);
     }
 
     @Override
     public VideogameEntity findByStoreGameId(String storeId, String storeGameId) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return (VideogameEntity) sessionFactory.getCurrentSession().createCriteria(VideogameEntity.class)
+                .add(Restrictions.like("storeId", storeId))
+                .add(Restrictions.like("storeGameId", storeGameId))
+                .uniqueResult();
     }
 
     @Override
     public List<VideogameEntity> findByPlatform(String platform) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return sessionFactory.getCurrentSession().createCriteria(VideogameEntity.class)
+                .add(Restrictions.like("platform", platform))
+                .list();
     }
 
     @Override
     public VideogameEntity saveOrUpdate(VideogameEntity videogame) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        sessionFactory.getCurrentSession().saveOrUpdate(videogame);
+        return videogame;
     }
+
 }
