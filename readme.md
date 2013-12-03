@@ -79,3 +79,9 @@ de la plataforma buscada.
 
 * Se integran los cambios que provienen del proyecto oficial de Otogami.
 * Se configura Spring MVC para poder crear endpoints REST.
+
+## 2 de Diciembre de 2013: 4 pomodoros
+
+* Se completan todas las capas para que los datos entrantes se almacenen de forma persistente.
+* En este punto ha habido algún retraso con la configuración de Hibernate debido principalmente a una dependencia
+duplicada con distinta versión. Se ha arreglado creando las exclusiones pertinentes en el pom.xml del server.
