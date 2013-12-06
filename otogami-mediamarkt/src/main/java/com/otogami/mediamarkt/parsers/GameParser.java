@@ -1,6 +1,7 @@
 package com.otogami.mediamarkt.parsers;
 
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlButtonInput;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlImage;
 import com.otogami.core.model.Availability;
@@ -59,9 +60,9 @@ public abstract class GameParser {
     protected abstract Platform getPlatform();
 
     protected String getId() {
-        HtmlAnchor availabilityAnchor = getAvailabilityAnchor();
+        // HtmlAnchor availabilityAnchor = getAvailabilityAnchor();
         Pattern pattern = Pattern.compile("(\\d+)");
-        Matcher matcher = pattern.matcher(availabilityAnchor.getOnClickAttribute());
+        Matcher matcher = pattern.matcher(getAddCartButton().getOnClickAttribute()); //availabilityAnchor.getOnClickAttribute());
         if (matcher.find())
             return matcher.group(0);
 
@@ -140,12 +141,8 @@ public abstract class GameParser {
         return game.getFirstByXPath(".//div[@class='product9ShortDescription']");
     }
 
-    private HtmlAnchor getAvailabilityAnchor() {
-        HtmlAnchor availabilityAnchor = game.getFirstByXPath(".//a[@class='availability_available1']");
-        if (availabilityAnchor == null)
-            availabilityAnchor = game.getFirstByXPath(".//a[@class='availability_unavailable1']");
-
-        return availabilityAnchor;
+    private HtmlButtonInput getAddCartButton() {
+        return game.getFirstByXPath(".//div[@class='product9LeftBottom']/input");
     }
 
 }
