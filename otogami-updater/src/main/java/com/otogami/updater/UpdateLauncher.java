@@ -23,6 +23,10 @@ public class UpdateLauncher {
         Collection<Videogame> videogames = robot.getVideogamesOnPlatform(Platform.xboxone);
         String videogamesRequestJSON = transformToVideogamesRequestJSON(videogames);
 
+        sendVideogamesToServer(videogamesRequestJSON);
+    }
+
+    private static void sendVideogamesToServer(String videogamesRequestJSON) {
         HttpClient client = new DefaultHttpClient();
         try {
             HttpPost post = new HttpPost("http://localhost:8080/otogami/update/1");
