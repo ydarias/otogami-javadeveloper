@@ -18,11 +18,6 @@ public class VideogameController {
         this.videogameFacade = videogameFacade;
     }
 
-    @RequestMapping(value = "helloWorld", method = RequestMethod.GET)
-    public @ResponseBody String helloWorld() {
-        return "Hello world";
-    }
-
     @RequestMapping(value = "update/{storeId}", method = RequestMethod.POST)
     public @ResponseBody String updateVideogames(@PathVariable String storeId, @RequestBody List<VideogameEntity> videogames) {
         for (VideogameEntity videogame : videogames)
