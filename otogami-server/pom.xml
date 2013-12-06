@@ -177,7 +177,13 @@
             <scope>test</scope>
         </dependency>
 
-	</dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>3.2.0.RELEASE</version>
+        </dependency>
+
+    </dependencies>
 	<build>
 		<finalName>otogami-server</finalName>
 	</build>
