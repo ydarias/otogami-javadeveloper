@@ -14,6 +14,7 @@ public class VideogameEntity {
     private Long id;
 
 	//Original game id in the store
+    @Index(name = "storeGameIdx")
 	private String storeGameId;
 
 	//Game Title 
@@ -33,6 +34,7 @@ public class VideogameEntity {
 	private BigDecimal price;
 
 	//Id or Name of the store
+    @Index(name = "storeIdx")
 	private String storeId;
 
     public Long getId() {
