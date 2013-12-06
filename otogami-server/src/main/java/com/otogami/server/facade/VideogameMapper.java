@@ -17,4 +17,10 @@ public class VideogameMapper {
         destinationGame.setUrl(sourceGame.getUrl());
     }
 
+    public VideogameEntity newInstance(VideogameEntity sourceGame) {
+        VideogameEntity destinationGame = new VideogameEntity();
+        updateFields(destinationGame, sourceGame);
+
+        return destinationGame;
+    }
 }

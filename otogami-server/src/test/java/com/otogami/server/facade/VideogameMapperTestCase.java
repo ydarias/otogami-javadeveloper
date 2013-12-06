@@ -17,13 +17,17 @@ public class VideogameMapperTestCase {
 
         videogameMapper.updateFields(destinationGame, sourceGame);
 
-        assertEquals(sourceGame.getAvailability(), destinationGame.getAvailability());
-        assertEquals(sourceGame.getId(), destinationGame.getId());
-        assertEquals(sourceGame.getPlatform(), destinationGame.getPlatform());
-        assertEquals(sourceGame.getPrice(), destinationGame.getPrice());
-        assertEquals(sourceGame.getStoreGameId(), destinationGame.getStoreGameId());
-        assertEquals(sourceGame.getTitle(), destinationGame.getTitle());
-        assertEquals(sourceGame.getUrl(), destinationGame.getUrl());
+        assertCorrectMapping(destinationGame, sourceGame);
+    }
+
+    @Test
+    public void shouldCreateNewInstance() {
+        VideogameEntity sourceGame = buildMockGame();
+        VideogameMapper videogameMapper = new VideogameMapper();
+
+        VideogameEntity destinationGame = videogameMapper.newInstance(sourceGame);
+
+        assertCorrectMapping(destinationGame, sourceGame);
     }
 
     private VideogameEntity buildMockGame() {
@@ -37,6 +41,16 @@ public class VideogameMapperTestCase {
         sourceGame.setUrl("www.google.com");
 
         return sourceGame;
+    }
+
+    private void assertCorrectMapping(VideogameEntity destinationGame, VideogameEntity sourceGame) {
+        assertEquals(sourceGame.getAvailability(), destinationGame.getAvailability());
+        assertEquals(sourceGame.getId(), destinationGame.getId());
+        assertEquals(sourceGame.getPlatform(), destinationGame.getPlatform());
+        assertEquals(sourceGame.getPrice(), destinationGame.getPrice());
+        assertEquals(sourceGame.getStoreGameId(), destinationGame.getStoreGameId());
+        assertEquals(sourceGame.getTitle(), destinationGame.getTitle());
+        assertEquals(sourceGame.getUrl(), destinationGame.getUrl());
     }
 
 }

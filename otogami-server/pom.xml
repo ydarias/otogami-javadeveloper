@@ -16,6 +16,7 @@
         <org.springframework-version>3.2.0.RELEASE</org.springframework-version>
         <org.hibernate-version>3.6.10.Final</org.hibernate-version>
         <org.slf4j-version>1.7.2</org.slf4j-version>
+        <org.aspectj-version>1.7.1</org.aspectj-version>
     </properties>
 
 	<dependencies>
@@ -38,10 +39,35 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${org.springframework-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${org.aspectj-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${org.aspectj-version}</version>
         </dependency>
 
         <!-- Mappers -->

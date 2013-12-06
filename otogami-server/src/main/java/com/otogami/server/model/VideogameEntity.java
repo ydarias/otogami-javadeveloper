@@ -1,16 +1,15 @@
 package com.otogami.server.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
 public class VideogameEntity {
 
 	//PK 
-	@Id private Long id;
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 	//Original game id in the store
 	private String storeGameId;
 	//Game Title 

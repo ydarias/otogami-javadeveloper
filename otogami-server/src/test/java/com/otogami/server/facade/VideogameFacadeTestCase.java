@@ -40,6 +40,17 @@ public class VideogameFacadeTestCase {
         inOrder.verify(videogameDao).saveOrUpdate(storedGame);
     }
 
+    @Test
+    public void shouldCreateNewInstanceWithVideogameDoesNotExists() {
+        VideogameEntity sourceGame = buildMockGame();
+
+        when(videogameDao.findByStoreGameId("1", "2")).thenReturn(null);
+
+        videogameFacade.txUpdate("1", sourceGame);
+
+        verify(videogameMapper).newInstance(sourceGame);
+    }
+
     private VideogameEntity buildMockGame() {
         VideogameEntity game = new VideogameEntity();
         game.setStoreGameId("2");

@@ -12,6 +12,8 @@ public class VideogameFacade {
 
     private VideogameMapper videogameMapper;
 
+    public VideogameFacade() {}
+
     @Autowired
     public VideogameFacade(VideogameDao videogameDao, VideogameMapper videogameMapper) {
         this.videogameDao = videogameDao;
@@ -19,8 +21,14 @@ public class VideogameFacade {
     }
 
     public void txUpdate(String storeId, VideogameEntity videogame) {
+        videogame.setStoreId(storeId);
+
         VideogameEntity storedVideogame = videogameDao.findByStoreGameId(storeId, videogame.getStoreGameId());
-        videogameMapper.updateFields(storedVideogame, videogame);
+        if (storedVideogame == null)
+            storedVideogame = videogameMapper.newInstance(videogame);
+        else
+            videogameMapper.updateFields(storedVideogame, videogame);
+
         videogameDao.saveOrUpdate(storedVideogame);
     }
 
