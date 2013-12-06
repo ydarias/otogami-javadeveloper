@@ -45,7 +45,6 @@ public class VideogameMapperTestCase {
 
     private void assertCorrectMapping(VideogameEntity destinationGame, VideogameEntity sourceGame) {
         assertEquals(sourceGame.getAvailability(), destinationGame.getAvailability());
-        assertEquals(sourceGame.getId(), destinationGame.getId());
         assertEquals(sourceGame.getPlatform(), destinationGame.getPlatform());
         assertEquals(sourceGame.getPrice(), destinationGame.getPrice());
         assertEquals(sourceGame.getStoreGameId(), destinationGame.getStoreGameId());

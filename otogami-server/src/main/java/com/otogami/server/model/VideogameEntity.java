@@ -1,5 +1,7 @@
 package com.otogami.server.model;
 
+import org.hibernate.annotations.Index;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
@@ -10,18 +12,26 @@ public class VideogameEntity {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
 	//Original game id in the store
 	private String storeGameId;
+
 	//Game Title 
 	private String title;
+
 	//Game Platform	as String
+    @Index(name = "platformIdx")
 	private String platform;
+
 	//Complete game Url	
 	private String url;
+
 	//Game Availability	as String
 	private String availability;
+
 	//Game Price. Null if it doesn't have
 	private BigDecimal price;
+
 	//Id or Name of the store
 	private String storeId;
 

@@ -8,7 +8,6 @@ public class VideogameMapper {
 
     public void updateFields(VideogameEntity destinationGame, VideogameEntity sourceGame) {
         destinationGame.setAvailability(sourceGame.getAvailability());
-        destinationGame.setId(sourceGame.getId());
         destinationGame.setPlatform(sourceGame.getPlatform());
         destinationGame.setPrice(sourceGame.getPrice());
         destinationGame.setStoreGameId(sourceGame.getStoreGameId());

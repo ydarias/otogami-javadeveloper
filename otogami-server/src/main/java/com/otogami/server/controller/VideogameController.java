@@ -26,4 +26,9 @@ public class VideogameController {
         return "OK";
     }
 
+    @RequestMapping(value = "platform/{platformId}/games")
+    public @ResponseBody List<VideogameEntity> getVideogamesByPlatform(@PathVariable String platformId) {
+        return videogameFacade.getVideogamesByPlatform(platformId);
+    }
+
 }

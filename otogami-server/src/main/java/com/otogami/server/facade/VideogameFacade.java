@@ -5,6 +5,8 @@ import com.otogami.server.model.VideogameEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class VideogameFacade {
 
@@ -32,4 +34,7 @@ public class VideogameFacade {
         videogameDao.saveOrUpdate(storedVideogame);
     }
 
+    public List<VideogameEntity> getVideogamesByPlatform(String platformId) {
+        return videogameDao.findByPlatform(platformId);
+    }
 }
