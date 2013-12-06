@@ -85,3 +85,11 @@ de la plataforma buscada.
 * Se completan todas las capas para que los datos entrantes se almacenen de forma persistente.
 * En este punto ha habido algún retraso con la configuración de Hibernate debido principalmente a una dependencia
 duplicada con distinta versión. Se ha arreglado creando las exclusiones pertinentes en el pom.xml del server.
+
+## 6 de Diciembre de 2013: 3 horas
+
+*Tag V4*
+
+* Se conecta el updater con el server.
+* Se crea el ámbito transaccional en la fachada para que se puedan hacer los objetos persistentes.
+* SE HA CORREGIDO EL ROBOT DE MEDIAMARKT PORQUE LA ESTRUCTURA DE LA WEB HA CAMBIADO.
