@@ -19,7 +19,7 @@
 
 	<div class="panel panel-default">
 		<div class="panel-body">
-			<form role="form" name="search-form" action="search" method="get">
+			<form id="videogame-form" role="form" name="search-form" action="search" method="get">
 				<div class="form-group">
 					<label for="videogame-title">Title</label>
 					<input type="text" class="form-control" name="title" id="videogame-title" placeholder="Title here ..." value="${title}">
@@ -51,6 +51,7 @@
 				</div>
 
 				<button id="submit-button" type="submit" class="btn btn-default">Submit</button>
+				<button id="reset-button" type="button" onclick="javascript:otogami.resetVideogameForm();" class="btn btn-default">Reset</button>
 			</form>
         </div>
     </div>
@@ -88,6 +89,24 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script>
+	var otogami = otogami || {};
+	(function() {
+		function resetFormComponents() {
+            document.getElementById("videogame-title").value = "";
+            document.getElementById("videogame-platform").value = "";
+            document.getElementById("videogame-availability").checked = false;
+            document.getElementById("videogame-price").checked = false;
+		}
+
+		function resetVideogameForm() {
+			resetFormComponents();
+			document.getElementById("submit-button").click();
+		}
+
+		otogami.resetVideogameForm = resetVideogameForm;
+	})();
+</script>
 
 </body>
 </html>
