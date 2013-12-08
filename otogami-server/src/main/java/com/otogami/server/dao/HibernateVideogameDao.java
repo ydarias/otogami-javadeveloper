@@ -17,8 +17,24 @@ public class HibernateVideogameDao implements VideogameDao {
 
     @Override
     public List<VideogameEntity> find(VideogameSearchSpecification searchSpecification) {
-        String query = "from VideogameEntity order by title asc";
+        String query = buildVideogameQuery(searchSpecification);
+
         return getSession().createQuery(query).list();
+    }
+
+    private String buildVideogameQuery(VideogameSearchSpecification searchSpecification) {
+        StringBuffer queryBuffer = new StringBuffer();
+        queryBuffer.append("from VideogameEntity ");
+        if (searchSpecification.hasTitle()) {
+            String title = searchSpecification.getTitle().toLowerCase();
+            queryBuffer.append("where lower(title) like '%" + title + "%' ");
+        }
+        if (searchSpecification.isMinorPrice())
+            queryBuffer.append("order by price asc, title asc");
+        else
+            queryBuffer.append("order by title asc");
+
+        return queryBuffer.toString();
     }
 
     @Override

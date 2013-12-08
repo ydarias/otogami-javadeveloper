@@ -40,27 +40,43 @@ public class VideogameServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        VideogameSearchSpecification searchSpecification = new VideogameSearchSpecification();
+        VideogameSearchSpecification searchSpecification = dataBinding(request);
+
         List<VideogameEntity> videogames = videogameFacade.getVideogames(searchSpecification);
 
-        Map<String, Object> data = new HashMap<String, Object>();
-        data.put("videogames", videogames);
-
-        Template template = freemakerConfiguration.getTemplate("videogames.ftl");
-
         response.setHeader("Content-Type", "text/html");
-        PrintWriter out = response.getWriter();
+
         try {
-            template.process(data, out);
+            Map<String, Object> data = buildTemplateContext(videogames);
+            Template template = freemakerConfiguration.getTemplate("videogames.ftl");
+            PrintWriter responseWriter = response.getWriter();
+            template.process(data, responseWriter);
         } catch (TemplateException e) {
-            out.println("ERROR");
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         super.doPost(request, response);
+    }
+
+    private VideogameSearchSpecification dataBinding(HttpServletRequest request) {
+        VideogameSearchSpecification searchSpecification = new VideogameSearchSpecification();
+        searchSpecification.setTitle(request.getParameter("title"));
+        searchSpecification.setPlatform(request.getParameter("platform"));
+        if (request.getParameter("availability") != null)
+            searchSpecification.setAvailable(true);
+        if (request.getParameter("price") != null)
+            searchSpecification.setMinorPrice(true);
+
+        return searchSpecification;
+    }
+
+    private Map<String, Object> buildTemplateContext(List<VideogameEntity> videogames) {
+        Map<String, Object> data = new HashMap<String, Object>();
+        data.put("videogames", videogames);
+        return data;
     }
 
 }
