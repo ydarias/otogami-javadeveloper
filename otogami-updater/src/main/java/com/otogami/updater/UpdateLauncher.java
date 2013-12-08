@@ -20,7 +20,18 @@ public class UpdateLauncher {
 
 	public static void main(String[] args) {
         MediamarktRobot robot = new MediamarktRobot();
-        Collection<Videogame> videogames = robot.getVideogamesOnPlatform(Platform.xboxone);
+
+        Collection<Videogame> videogames = new ArrayList<Videogame>();
+        videogames.addAll(robot.getVideogamesOnPlatform(Platform.ps3));
+        videogames.addAll(robot.getVideogamesOnPlatform(Platform.ps4));
+        videogames.addAll(robot.getVideogamesOnPlatform(Platform.psvita));
+        videogames.addAll(robot.getVideogamesOnPlatform(Platform.xbox360));
+        videogames.addAll(robot.getVideogamesOnPlatform(Platform.xboxone));
+        videogames.addAll(robot.getVideogamesOnPlatform(Platform.n3ds));
+        videogames.addAll(robot.getVideogamesOnPlatform(Platform.pc));
+        videogames.addAll(robot.getVideogamesOnPlatform(Platform.wii));
+        videogames.addAll(robot.getVideogamesOnPlatform(Platform.wiiu));
+
         String videogamesRequestJSON = transformToVideogamesRequestJSON(videogames);
 
         sendVideogamesToServer(videogamesRequestJSON);
@@ -29,9 +40,9 @@ public class UpdateLauncher {
     private static void sendVideogamesToServer(String videogamesRequestJSON) {
         HttpClient client = new DefaultHttpClient();
         try {
-            HttpPost post = new HttpPost("http://localhost:8080/otogami/update/1");
+            HttpPost post = new HttpPost("http://localhost:8080/otogami/api/update/1");
             post.setHeader("Content-Type", "application/json");
-            post.setEntity(new StringEntity(videogamesRequestJSON));
+            post.setEntity(new StringEntity(videogamesRequestJSON, "UTF-8"));
 
             client.execute(post);
         } catch (UnsupportedEncodingException e) {

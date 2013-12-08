@@ -19,8 +19,13 @@
 			<option value="">All platforms</option>
             <option value="ps3">Play Station 3</option>
             <option value="ps4">Play Station 4</option>
+			<option value="psvita">Play Station Vita</option>
             <option value="xbox360">xBox 360</option>
             <option value="xboxone">xBox One</option>
+            <option value="pc">PC</option>
+            <option value="wii">Wii</option>
+			<option value="wiiu">Wii U</option>
+			<option value="n3ds">Nintendo 3DS</option>
         </select>
     </div>
     <div class="checkbox">
