@@ -21,32 +21,28 @@ import java.util.Map;
 
 public class VideogameServlet extends HttpServlet {
 
-    @Autowired private VideogameFacade videogameFacade;
+    @Autowired
+    private VideogameFacade videogameFacade;
 
     private Configuration freemakerConfiguration;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-
         SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
-
-        freemakerConfiguration = new Configuration();
-        freemakerConfiguration.setServletContextForTemplateLoading(getServletContext(), "WEB-INF/templates");
-        freemakerConfiguration.setObjectWrapper(new DefaultObjectWrapper());
-        freemakerConfiguration.setDefaultEncoding("UTF-8");
-        freemakerConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
-        freemakerConfiguration.setIncompatibleImprovements(new Version(2, 3, 20));
+        initFreemarkerConfig();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         VideogameSearchSpecification searchSpecification = dataBinding(request);
-
         List<VideogameEntity> videogames = videogameFacade.getVideogames(searchSpecification);
 
-        response.setHeader("Content-Type", "text/html");
+        writeResponse(response, searchSpecification, videogames);
+    }
 
+    private void writeResponse(HttpServletResponse response, VideogameSearchSpecification searchSpecification, List<VideogameEntity> videogames) throws IOException {
+        response.setHeader("Content-Type", "text/html");
         try {
             Map<String, Object> data = buildTemplateContext(searchSpecification, videogames);
             Template template = freemakerConfiguration.getTemplate("videogames.ftl");
@@ -57,9 +53,13 @@ public class VideogameServlet extends HttpServlet {
         }
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        super.doPost(request, response);
+    private void initFreemarkerConfig() {
+        freemakerConfiguration = new Configuration();
+        freemakerConfiguration.setServletContextForTemplateLoading(getServletContext(), "WEB-INF/templates");
+        freemakerConfiguration.setObjectWrapper(new DefaultObjectWrapper());
+        freemakerConfiguration.setDefaultEncoding("UTF-8");
+        freemakerConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
+        freemakerConfiguration.setIncompatibleImprovements(new Version(2, 3, 20));
     }
 
     private VideogameSearchSpecification dataBinding(HttpServletRequest request) {
