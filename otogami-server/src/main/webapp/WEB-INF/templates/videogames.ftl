@@ -16,6 +16,7 @@
     <div class="form-group">
         <label for="videogame-platform">Platform</label>
         <select name="platform" id="videogame-platform" class="form-control">
+			<option value="">All platforms</option>
             <option value="ps3">Play Station 3</option>
             <option value="ps4">Play Station 4</option>
             <option value="xbox360">xBox 360</option>

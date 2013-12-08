@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component("videogameDao")
@@ -17,24 +18,8 @@ public class HibernateVideogameDao implements VideogameDao {
 
     @Override
     public List<VideogameEntity> find(VideogameSearchSpecification searchSpecification) {
-        String query = buildVideogameQuery(searchSpecification);
-
+        String query = new VideogameQueryBuilder(searchSpecification).build();
         return getSession().createQuery(query).list();
-    }
-
-    private String buildVideogameQuery(VideogameSearchSpecification searchSpecification) {
-        StringBuffer queryBuffer = new StringBuffer();
-        queryBuffer.append("from VideogameEntity ");
-        if (searchSpecification.hasTitle()) {
-            String title = searchSpecification.getTitle().toLowerCase();
-            queryBuffer.append("where lower(title) like '%" + title + "%' ");
-        }
-        if (searchSpecification.isMinorPrice())
-            queryBuffer.append("order by price asc, title asc");
-        else
-            queryBuffer.append("order by title asc");
-
-        return queryBuffer.toString();
     }
 
     @Override
@@ -65,6 +50,60 @@ public class HibernateVideogameDao implements VideogameDao {
 
     private Session getSession() {
         return sessionFactory.getCurrentSession();
+    }
+
+    private class VideogameQueryBuilder {
+
+        List<String> whereClauses = new ArrayList<String>();
+
+        List<String> orderClauses = new ArrayList<String>();
+
+        public VideogameQueryBuilder(VideogameSearchSpecification specification) {
+            extractWhereClauses(specification);
+            extractOrderClauses(specification);
+        }
+
+        public String build() {
+            StringBuffer queryBuffer = new StringBuffer();
+            queryBuffer.append("from VideogameEntity ");
+            addClauses(queryBuffer, whereClauses, "where", "and");
+            addClauses(queryBuffer, orderClauses, "order by", ",");
+
+            return queryBuffer.toString();
+        }
+
+        private void extractOrderClauses(VideogameSearchSpecification specification) {
+            if (specification.isMinorPrice())
+                orderClauses.add("price asc ");
+            orderClauses.add("title asc ");
+        }
+
+        private void extractWhereClauses(VideogameSearchSpecification specification) {
+            if (specification.hasTitle()) {
+                String title = specification.getTitle().toLowerCase();
+                whereClauses.add("lower(title) like '%" + title + "%' ");
+            }
+            if (specification.hasPlatform()) {
+                String platform = specification.getPlatform();
+                whereClauses.add("platform = '" + platform + "' ");
+            }
+            if (specification.isAvailable())
+                whereClauses.add("availability = 'InStock' ");
+        }
+
+        private void addClauses(StringBuffer buffer, List<String> clauses, String clauseOperator, String clauseSeparator) {
+            if (clauses.size() > 0) {
+                buffer.append(clauseOperator + " ");
+                boolean firstElement = true;
+                for (String clause : clauses) {
+                    if (!firstElement)
+                        buffer.append(clauseSeparator + " ");
+                    buffer.append(clause);
+                    firstElement = false;
+                }
+            }
+        }
+
     }
 
 }

@@ -15,6 +15,9 @@ public class VideogameSearchSpecification {
     public boolean hasTitle() {
         return StringUtils.isNotBlank(title);
     }
+    public boolean hasPlatform() {
+        return StringUtils.isNotBlank(platform);
+    }
 
     public String getTitle() {
         return title;
