@@ -22,31 +22,31 @@
 			<form role="form" name="search-form" action="search" method="get">
 				<div class="form-group">
 					<label for="videogame-title">Title</label>
-					<input type="text" class="form-control" name="title" id="videogame-title" placeholder="Title here ...">
+					<input type="text" class="form-control" name="title" id="videogame-title" placeholder="Title here ..." value="${title}">
 				</div>
 				<div class="form-group">
 					<label for="videogame-platform">Platform</label>
 					<select name="platform" id="videogame-platform" class="form-control">
-						<option value="">All platforms</option>
-						<option value="ps3">Play Station 3</option>
-						<option value="ps4">Play Station 4</option>
-						<option value="psvita">Play Station Vita</option>
-						<option value="xbox360">xBox 360</option>
-						<option value="xboxone">xBox One</option>
-						<option value="pc">PC</option>
-						<option value="wii">Wii</option>
-						<option value="wiiu">Wii U</option>
-						<option value="n3ds">Nintendo 3DS</option>
+						<option value="" <#if (platform == "")> selected="selected" </#if>>All platforms</option>
+						<option value="ps3" <#if (platform == "ps3")> selected="selected" </#if>>Play Station 3</option>
+						<option value="ps4" <#if (platform == "ps4")> selected="selected" </#if>>Play Station 4</option>
+						<option value="psvita" <#if (platform == "psvita")> selected="selected" </#if>>Play Station Vita</option>
+						<option value="xbox360" <#if (platform == "xbox360")> selected="selected" </#if>>xBox 360</option>
+						<option value="xboxone" <#if (platform == "xboxone")> selected="selected" </#if>>xBox One</option>
+						<option value="pc" <#if (platform == "pc")> selected="selected" </#if>>PC</option>
+						<option value="wii" <#if (platform == "wii")> selected="selected" </#if>>Wii</option>
+						<option value="wiiu" <#if (platform == "wiiu")> selected="selected" </#if>>Wii U</option>
+						<option value="n3ds" <#if (platform == "n3ds")> selected="selected" </#if>>Nintendo 3DS</option>
 					</select>
 				</div>
 				<div class="checkbox">
 					<label>
-						<input name="availability" id="videogame-availability" type="checkbox"> Only available
+						<input name="availability" id="videogame-availability" type="checkbox" <#if availability??>checked</#if>> Only available
 					</label>
 				</div>
 				<div class="checkbox">
 					<label>
-						<input name="price" id="videogame-price" type="checkbox"> Cheapers first
+						<input name="price" id="videogame-price" type="checkbox" <#if price??>checked</#if>> Cheapers first
 					</label>
 				</div>
 
@@ -72,7 +72,7 @@
 						<td>${videogame.title}</td>
 						<td>${videogame.platform}</td>
 						<td>${videogame.availability}</td>
-						<td>${videogame.price} &#8364;</td>
+						<td>${videogame.price?string("0.00")} &#8364;</td>
 						<td><a href="${videogame.url}" target="_blank">View in shop</a></td>
 					</tr>
 				</#list>

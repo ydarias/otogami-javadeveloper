@@ -4,6 +4,7 @@ import com.otogami.server.facade.VideogameFacade;
 import com.otogami.server.facade.VideogameSearchSpecification;
 import com.otogami.server.model.VideogameEntity;
 import freemarker.template.*;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -47,7 +48,7 @@ public class VideogameServlet extends HttpServlet {
         response.setHeader("Content-Type", "text/html");
 
         try {
-            Map<String, Object> data = buildTemplateContext(videogames);
+            Map<String, Object> data = buildTemplateContext(searchSpecification, videogames);
             Template template = freemakerConfiguration.getTemplate("videogames.ftl");
             PrintWriter responseWriter = response.getWriter();
             template.process(data, responseWriter);
@@ -65,16 +66,22 @@ public class VideogameServlet extends HttpServlet {
         VideogameSearchSpecification searchSpecification = new VideogameSearchSpecification();
         searchSpecification.setTitle(request.getParameter("title"));
         searchSpecification.setPlatform(request.getParameter("platform"));
-        if (request.getParameter("availability") != null)
+        if (StringUtils.isNotBlank(request.getParameter("availability")))
             searchSpecification.setAvailable(true);
-        if (request.getParameter("price") != null)
+        if (StringUtils.isNotBlank(request.getParameter("price")))
             searchSpecification.setMinorPrice(true);
 
         return searchSpecification;
     }
 
-    private Map<String, Object> buildTemplateContext(List<VideogameEntity> videogames) {
+    private Map<String, Object> buildTemplateContext(VideogameSearchSpecification searchSpecification, List<VideogameEntity> videogames) {
         Map<String, Object> data = new HashMap<String, Object>();
+        data.put("title", searchSpecification.getTitle());
+        data.put("platform", searchSpecification.getPlatform());
+        if (searchSpecification.isAvailable())
+            data.put("availability", "on");
+        if (searchSpecification.isMinorPrice())
+            data.put("price", "on");
         data.put("videogames", videogames);
         return data;
     }
