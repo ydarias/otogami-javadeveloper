@@ -34,7 +34,12 @@ public class VideogameFacade {
         videogameDao.saveOrUpdate(storedVideogame);
     }
 
+    public List<VideogameEntity> getVideogames(VideogameSearchSpecification searchSpecification) {
+        return videogameDao.find(searchSpecification);
+    }
+
     public List<VideogameEntity> getVideogamesByPlatform(String platformId) {
         return videogameDao.findByPlatform(platformId);
     }
+
 }

@@ -1,6 +1,8 @@
 package com.otogami.server.dao;
 
+import com.otogami.server.facade.VideogameSearchSpecification;
 import com.otogami.server.model.VideogameEntity;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +16,19 @@ public class HibernateVideogameDao implements VideogameDao {
     @Autowired private SessionFactory sessionFactory;
 
     @Override
+    public List<VideogameEntity> find(VideogameSearchSpecification searchSpecification) {
+        String query = "from VideogameEntity order by title asc";
+        return getSession().createQuery(query).list();
+    }
+
+    @Override
     public VideogameEntity findById(Long id) {
-        return (VideogameEntity) sessionFactory.getCurrentSession().get(VideogameEntity.class, id);
+        return (VideogameEntity) getSession().get(VideogameEntity.class, id);
     }
 
     @Override
     public VideogameEntity findByStoreGameId(String storeId, String storeGameId) {
-        return (VideogameEntity) sessionFactory.getCurrentSession().createCriteria(VideogameEntity.class)
+        return (VideogameEntity) getSession().createCriteria(VideogameEntity.class)
                 .add(Restrictions.like("storeId", storeId))
                 .add(Restrictions.like("storeGameId", storeGameId))
                 .uniqueResult();
@@ -28,15 +36,19 @@ public class HibernateVideogameDao implements VideogameDao {
 
     @Override
     public List<VideogameEntity> findByPlatform(String platform) {
-        return sessionFactory.getCurrentSession().createCriteria(VideogameEntity.class)
+        return getSession().createCriteria(VideogameEntity.class)
                 .add(Restrictions.like("platform", platform))
                 .list();
     }
 
     @Override
     public VideogameEntity saveOrUpdate(VideogameEntity videogame) {
-        sessionFactory.getCurrentSession().saveOrUpdate(videogame);
+        getSession().saveOrUpdate(videogame);
         return videogame;
+    }
+
+    private Session getSession() {
+        return sessionFactory.getCurrentSession();
     }
 
 }

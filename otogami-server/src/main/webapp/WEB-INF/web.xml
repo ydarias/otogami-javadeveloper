@@ -32,8 +32,23 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <servlet>
+        <servlet-name>web</servlet-name>
+        <servlet-class>com.otogami.server.servlets.VideogameServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>mvc</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>web</servlet-name>
+        <url-pattern>/web/*</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>web/index.html</welcome-file>
+    </welcome-file-list>
 </web-app>
