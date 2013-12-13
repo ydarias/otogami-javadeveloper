@@ -93,7 +93,7 @@ duplicada con distinta versión. Se ha arreglado creando las exclusiones pertine
 * Se conecta el updater con el server.
 * Se crea el ámbito transaccional en la fachada para que se puedan hacer los objetos persistentes.
 * SE HA CORREGIDO EL ROBOT DE MEDIAMARKT PORQUE LA ESTRUCTURA DE LA WEB HA CAMBIADO.
-* 
+
 ## 8 de Diciembre de 2013: 4 horas
 
 *Tag V5* 
