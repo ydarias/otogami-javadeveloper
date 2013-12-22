@@ -7,6 +7,7 @@ import freemarker.template.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -24,13 +25,13 @@ public class VideogameServlet extends HttpServlet {
     @Autowired
     private VideogameFacade videogameFacade;
 
-    private Configuration freemakerConfiguration;
+    @Autowired
+    private FreeMarkerConfigurer freeMarkerConfigurer;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
-        initFreemarkerConfig();
     }
 
     @Override
@@ -45,21 +46,12 @@ public class VideogameServlet extends HttpServlet {
         response.setHeader("Content-Type", "text/html");
         try {
             Map<String, Object> data = buildTemplateContext(searchSpecification, videogames);
-            Template template = freemakerConfiguration.getTemplate("videogames.ftl");
+            Template template = freeMarkerConfigurer.getConfiguration().getTemplate("videogames.ftl");
             PrintWriter responseWriter = response.getWriter();
             template.process(data, responseWriter);
         } catch (TemplateException e) {
             e.printStackTrace();
         }
-    }
-
-    private void initFreemarkerConfig() {
-        freemakerConfiguration = new Configuration();
-        freemakerConfiguration.setServletContextForTemplateLoading(getServletContext(), "WEB-INF/templates");
-        freemakerConfiguration.setObjectWrapper(new DefaultObjectWrapper());
-        freemakerConfiguration.setDefaultEncoding("UTF-8");
-        freemakerConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
-        freemakerConfiguration.setIncompatibleImprovements(new Version(2, 3, 20));
     }
 
     private VideogameSearchSpecification dataBinding(HttpServletRequest request) {
