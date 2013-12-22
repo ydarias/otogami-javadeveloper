@@ -20,6 +20,8 @@ public class VideogameSearchSpecification {
     }
 
     public String getTitle() {
+        if (title == null)
+            return "";
         return title;
     }
 
@@ -28,6 +30,8 @@ public class VideogameSearchSpecification {
     }
 
     public String getPlatform() {
+        if (platform == null)
+            return "";
         return platform;
     }
 

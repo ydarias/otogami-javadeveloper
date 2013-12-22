@@ -22,7 +22,7 @@
 			<form id="videogame-form" role="form" name="search-form" action="search" method="get">
 				<div class="form-group">
 					<label for="videogame-title">Title</label>
-					<input type="text" class="form-control" name="title" id="videogame-title" placeholder="Title here ..." value="${title}">
+					<input type="text" class="form-control" name="title" id="videogame-title" placeholder="Title here ..." value="${title!}">
 				</div>
 				<div class="form-group">
 					<label for="videogame-platform">Platform</label>
